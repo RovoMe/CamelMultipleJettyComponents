@@ -23,6 +23,7 @@ import at.rovo.camel.test.auth.JettyBasicAuthAuthorizationHandler;
 import at.rovo.camel.test.routes.Route1;
 import at.rovo.camel.test.routes.Route2;
 import at.rovo.camel.test.routes.Route3;
+import at.rovo.camel.test.routes.Route4;
 
 @Configuration
 @Profile("default")
@@ -47,36 +48,36 @@ public class ServicesSpringConfig extends CamelConfiguration {
 	   *
 	   * @return The configured SSLContextParameter
 	   */
-	  @Bean(name = "sslContextParameters")
-	  public SSLContextParameters sslContextParameters() {
-	    String keyStore = env.getProperty("ssl.keyStore.resource");
-	    URL keyStoreUrl = this.getClass().getResource(keyStore);
-
-	    // http://camel.apache.org/jetty.html
-	    KeyStoreParameters ksp = new KeyStoreParameters();
-	    ksp.setResource(keyStoreUrl.getPath());
-	    ksp.setPassword(env.getProperty("ssl.keyStore.password"));
-
-	    KeyManagersParameters kmp = new KeyManagersParameters();
-	    kmp.setKeyStore(ksp);
-	    kmp.setKeyPassword(env.getProperty("ssl.key.password"));
-
-//	      String trustStore = env.getProperty("ssl.trustStore.resource");
-//	      URL trustStoreUrl = this.getClass().getResource(trustStore);
-	//
-//	      KeyStoreParameters tsp = new KeyStoreParameters();
-//	      tsp.setResource(trustStoreUrl.getPath());
-//	      tsp.setPassword(env.getProperty("ssl.trustStore.password"));
-	//
-//	      TrustManagersParameters tmp = new TrustManagersParameters();
-//	      tmp.setKeyStore(tsp);
-
-	    SSLContextParameters scp = new SSLContextParameters();
-	    scp.setKeyManagers(kmp);
-//	      scp.setTrustManagers(tmp);
-
-	    return scp;
-	  }
+//	  @Bean(name = "sslContextParameters")
+//	  public SSLContextParameters sslContextParameters() {
+//	    String keyStore = env.getProperty("ssl.keyStore.resource");
+//	    URL keyStoreUrl = this.getClass().getResource(keyStore);
+//
+//	    // http://camel.apache.org/jetty.html
+//	    KeyStoreParameters ksp = new KeyStoreParameters();
+//	    ksp.setResource(keyStoreUrl.getPath());
+//	    ksp.setPassword(env.getProperty("ssl.keyStore.password"));
+//
+//	    KeyManagersParameters kmp = new KeyManagersParameters();
+//	    kmp.setKeyStore(ksp);
+//	    kmp.setKeyPassword(env.getProperty("ssl.key.password"));
+//
+////	      String trustStore = env.getProperty("ssl.trustStore.resource");
+////	      URL trustStoreUrl = this.getClass().getResource(trustStore);
+//	//
+////	      KeyStoreParameters tsp = new KeyStoreParameters();
+////	      tsp.setResource(trustStoreUrl.getPath());
+////	      tsp.setPassword(env.getProperty("ssl.trustStore.password"));
+//	//
+////	      TrustManagersParameters tmp = new TrustManagersParameters();
+////	      tmp.setKeyStore(tsp);
+//
+//	    SSLContextParameters scp = new SSLContextParameters();
+//	    scp.setKeyManagers(kmp);
+////	      scp.setTrustManagers(tmp);
+//
+//	    return scp;
+//	  }
 	  
 	  @Bean(name = "jettyAuthHandler")
 	  public JettyBasicAuthAuthorizationHandler jettyBasicAuthAuthorizationHandler() {
@@ -88,25 +89,31 @@ public class ServicesSpringConfig extends CamelConfiguration {
 	    List<RouteBuilder> routes = new ArrayList<>();
 
 	    // "REST" routes
-	    routes.add(route1());
-	    routes.add(route2());
-	    routes.add(route3());
+//	    routes.add(route1());
+//	    routes.add(route2());
+//	    routes.add(route3());
+	    routes.add(route4());
 
 	    return routes;
 	  }
 	  
+//	  @Bean
+//	  public Route1 route1() {
+//		  return new Route1();
+//	  }
+//	  
+//	  @Bean
+//	  public Route2 route2() {
+//		  return new Route2();
+//	  }
+//	  
+//	  @Bean
+//	  public Route3 route3() {
+//		  return new Route3();
+//	  }
+//	  
 	  @Bean
-	  public Route1 route1() {
-		  return new Route1();
-	  }
-	  
-	  @Bean
-	  public Route2 route2() {
-		  return new Route2();
-	  }
-	  
-	  @Bean
-	  public Route3 route3() {
-		  return new Route3();
+	  public Route4 route4() {
+		  return new Route4();
 	  }
 }
