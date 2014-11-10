@@ -8,6 +8,8 @@ import javax.annotation.Resource;
 
 import org.apache.camel.CamelContext;
 import org.apache.camel.builder.RouteBuilder;
+import org.apache.camel.component.jetty.JettyHttpComponent;
+
 import org.apache.camel.component.properties.PropertiesComponent;
 import org.apache.camel.spring.javaconfig.CamelConfiguration;
 import org.apache.camel.util.jsse.KeyManagersParameters;
@@ -37,6 +39,8 @@ public class ServicesSpringConfig extends CamelConfiguration {
 	  protected void setupCamelContext(CamelContext camelContext) throws Exception {
 	    super.setupCamelContext(camelContext);
 
+	    camelContext.addComponent("jetty", jettyHttpComponent());
+	    
 	    final PropertiesComponent pc = 
 	    		new PropertiesComponent("classpath:" + env.getProperty("propertyfile"));
 	    camelContext.addComponent("properties", pc);
@@ -49,39 +53,46 @@ public class ServicesSpringConfig extends CamelConfiguration {
 	   * @return The configured SSLContextParameter
 	   */
 //	  @Bean(name = "sslContextParameters")
-//	  public SSLContextParameters sslContextParameters() {
-//	    String keyStore = env.getProperty("ssl.keyStore.resource");
-//	    URL keyStoreUrl = this.getClass().getResource(keyStore);
+	  public SSLContextParameters sslContextParameters() {
+	    String keyStore = env.getProperty("ssl.keyStore.resource");
+	    URL keyStoreUrl = this.getClass().getResource(keyStore);
+
+	    // http://camel.apache.org/jetty.html
+	    KeyStoreParameters ksp = new KeyStoreParameters();
+	    ksp.setResource(keyStoreUrl.getPath());
+	    ksp.setPassword(env.getProperty("ssl.keyStore.password"));
+
+	    KeyManagersParameters kmp = new KeyManagersParameters();
+	    kmp.setKeyStore(ksp);
+	    kmp.setKeyPassword(env.getProperty("ssl.key.password"));
+
+//	      String trustStore = env.getProperty("ssl.trustStore.resource");
+//	      URL trustStoreUrl = this.getClass().getResource(trustStore);
 //
-//	    // http://camel.apache.org/jetty.html
-//	    KeyStoreParameters ksp = new KeyStoreParameters();
-//	    ksp.setResource(keyStoreUrl.getPath());
-//	    ksp.setPassword(env.getProperty("ssl.keyStore.password"));
+//	      KeyStoreParameters tsp = new KeyStoreParameters();
+//	      tsp.setResource(trustStoreUrl.getPath());
+//	      tsp.setPassword(env.getProperty("ssl.trustStore.password"));
 //
-//	    KeyManagersParameters kmp = new KeyManagersParameters();
-//	    kmp.setKeyStore(ksp);
-//	    kmp.setKeyPassword(env.getProperty("ssl.key.password"));
-//
-////	      String trustStore = env.getProperty("ssl.trustStore.resource");
-////	      URL trustStoreUrl = this.getClass().getResource(trustStore);
-//	//
-////	      KeyStoreParameters tsp = new KeyStoreParameters();
-////	      tsp.setResource(trustStoreUrl.getPath());
-////	      tsp.setPassword(env.getProperty("ssl.trustStore.password"));
-//	//
-////	      TrustManagersParameters tmp = new TrustManagersParameters();
-////	      tmp.setKeyStore(tsp);
-//
-//	    SSLContextParameters scp = new SSLContextParameters();
-//	    scp.setKeyManagers(kmp);
-////	      scp.setTrustManagers(tmp);
-//
-//	    return scp;
-//	  }
+//	      TrustManagersParameters tmp = new TrustManagersParameters();
+//	      tmp.setKeyStore(tsp);
+
+	    SSLContextParameters scp = new SSLContextParameters();
+	    scp.setKeyManagers(kmp);
+//	      scp.setTrustManagers(tmp);
+
+	    return scp;
+	  }
 	  
 	  @Bean(name = "jettyAuthHandler")
 	  public JettyBasicAuthAuthorizationHandler jettyBasicAuthAuthorizationHandler() {
 	    return new JettyBasicAuthAuthorizationHandler();
+	  }
+	  
+//	  @Bean(name = "jettyHttpComponent")
+	  public JettyHttpComponent jettyHttpComponent() {
+		  JettyHttpComponent jetty = new JettyHttpComponent();
+		  jetty.setSslContextParameters(sslContextParameters());
+		  return jetty;
 	  }
 	  
 	  @Override

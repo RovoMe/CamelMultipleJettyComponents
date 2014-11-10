@@ -8,17 +8,17 @@ public class Route4 extends RouteBuilder {
 	public void configure() throws Exception {
 		
 		restConfiguration()
+//			.component("jetty:https://localhost:8383/api/v1/service4?handlers=#jettyAuthHandler&matchOnUriPrefix=true");
 			.component("jetty")
-			.port(8383)
 			.scheme("https")
+			.host("localhost")
+			.port(8383)
 			.contextPath("/api/v1")
-			.endpointProperty("sslKeystore", "/security/serverKey.jks")
-			.endpointProperty("sslPassword", "keystorePW")
-			.endpointProperty("sslKeyPassword", "jettyPW")
-//			.componentProperty("sslContextParameters", "#sslContextParameters")
-			.componentProperty("handlers", "#jettyAuthHandler");
+			.componentProperty("handlers", "#jettyAuthHandler")
+			.componentProperty("matchOnUriPrefix", "true");
 		
 		rest("/service4")
+			.id("RestDSL-TestRoute")
 			.get().route().log("Service4 GET request received").endRest()
 			.post().route().log("Service4 POST request received").endRest()
 			.delete().route().log("Service4 DELETE request received").endRest();
