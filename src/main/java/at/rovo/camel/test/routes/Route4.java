@@ -8,7 +8,6 @@ public class Route4 extends RouteBuilder {
 	public void configure() throws Exception {
 		
 		restConfiguration()
-//			.component("jetty:https://localhost:8383/api/v1/service4?handlers=#jettyAuthHandler&matchOnUriPrefix=true");
 			.component("jetty")
 			.scheme("https")
 			.host("localhost")
@@ -18,9 +17,8 @@ public class Route4 extends RouteBuilder {
 			.componentProperty("matchOnUriPrefix", "true");
 		
 		rest("/service4")
-			.id("RestDSL-TestRoute")
-			.get().route().log("Service4 GET request received").endRest()
-			.post().route().log("Service4 POST request received").endRest()
-			.delete().route().log("Service4 DELETE request received").endRest();
+			.get().route().routeId("'RestDSL-GET TestRoute'").log("Service4 GET request received").endRest()
+			.post().route().routeId("'RestDSL-POST TestRoute'").log("Service4 POST request received").endRest()
+			.delete().route().routeId("'RestDSL-DELETE TestRoute'").log("Service4 DELETE request received").endRest();
 	}
 }
