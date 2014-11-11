@@ -62,7 +62,7 @@ public class JettyBasicAuthAuthorizationHandler extends
 		// our REST API
 		ConstraintMapping cm = new ConstraintMapping();
 		cm.setConstraint(constraint);
-		cm.setPathSpec("/api/v1/*");
+		cm.setPathSpec("/*");
 
 		// BasicAuthenticator takes care of sending a challenge to the caller
 		// and calls our login service in case of a challenge response to
