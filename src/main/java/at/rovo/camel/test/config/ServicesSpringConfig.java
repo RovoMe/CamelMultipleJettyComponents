@@ -9,7 +9,6 @@ import javax.annotation.Resource;
 import org.apache.camel.CamelContext;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.component.jetty.JettyHttpComponent;
-
 import org.apache.camel.component.properties.PropertiesComponent;
 import org.apache.camel.spring.javaconfig.CamelConfiguration;
 import org.apache.camel.util.jsse.KeyManagersParameters;
@@ -38,7 +37,7 @@ public class ServicesSpringConfig extends CamelConfiguration {
 	  @Override
 	  protected void setupCamelContext(CamelContext camelContext) throws Exception {
 	    super.setupCamelContext(camelContext);
-
+	    
 	    camelContext.addComponent("jetty", jettyHttpComponent());
 	    
 	    final PropertiesComponent pc = 
@@ -52,7 +51,7 @@ public class ServicesSpringConfig extends CamelConfiguration {
 	   *
 	   * @return The configured SSLContextParameter
 	   */
-//	  @Bean(name = "sslContextParameters")
+	  @Bean(name = "sslContextParameters")
 	  public SSLContextParameters sslContextParameters() {
 	    String keyStore = env.getProperty("ssl.keyStore.resource");
 	    URL keyStoreUrl = this.getClass().getResource(keyStore);
@@ -108,11 +107,11 @@ public class ServicesSpringConfig extends CamelConfiguration {
 	    return routes;
 	  }
 	  
-//	  @Bean
-//	  public Route1 route1() {
-//		  return new Route1();
-//	  }
-//	  
+	  @Bean
+	  public Route1 route1() {
+		  return new Route1();
+	  }
+	  
 //	  @Bean
 //	  public Route2 route2() {
 //		  return new Route2();

@@ -13,10 +13,8 @@ public class Route4 extends RouteBuilder {
 			.host("localhost")
 			.port(8383)
 			.contextPath("/api/v1")
-			.endpointProperty("handlers",  "#jettyAuthHandler")
+			.endpointProperty("handlers",  "jettyAuthHandler")
 			.endpointProperty("matchOnUriPrerfix",  "true");
-//			.componentProperty("handlers", "jettyAuthHandler")
-//			.componentProperty("matchOnUriPrefix", "true");
 		
 		rest("/api/v1/service4")
 			.get().route().routeId("'RestDSL-GET TestRoute'").log("Service4 GET request received").endRest()
