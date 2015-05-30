@@ -9,6 +9,7 @@ import javax.annotation.Resource;
 import org.apache.camel.CamelContext;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.component.jetty.JettyHttpComponent;
+import org.apache.camel.component.jetty9.JettyHttpComponent9;
 import org.apache.camel.component.properties.PropertiesComponent;
 import org.apache.camel.spring.javaconfig.CamelConfiguration;
 import org.apache.camel.util.jsse.KeyManagersParameters;
@@ -24,7 +25,6 @@ import at.rovo.camel.test.auth.JettyBasicAuthAuthorizationHandler;
 import at.rovo.camel.test.routes.Route1;
 import at.rovo.camel.test.routes.Route2;
 import at.rovo.camel.test.routes.Route3;
-import at.rovo.camel.test.routes.Route4;
 
 @Configuration
 @Profile("default")
@@ -65,19 +65,8 @@ public class ServicesSpringConfig extends CamelConfiguration {
 	    kmp.setKeyStore(ksp);
 	    kmp.setKeyPassword(env.getProperty("ssl.key.password"));
 
-//	      String trustStore = env.getProperty("ssl.trustStore.resource");
-//	      URL trustStoreUrl = this.getClass().getResource(trustStore);
-//
-//	      KeyStoreParameters tsp = new KeyStoreParameters();
-//	      tsp.setResource(trustStoreUrl.getPath());
-//	      tsp.setPassword(env.getProperty("ssl.trustStore.password"));
-//
-//	      TrustManagersParameters tmp = new TrustManagersParameters();
-//	      tmp.setKeyStore(tsp);
-
 	    SSLContextParameters scp = new SSLContextParameters();
 	    scp.setKeyManagers(kmp);
-//	      scp.setTrustManagers(tmp);
 
 	    return scp;
 	  }
@@ -87,9 +76,8 @@ public class ServicesSpringConfig extends CamelConfiguration {
 	    return new JettyBasicAuthAuthorizationHandler();
 	  }
 	  
-//	  @Bean(name = "jettyHttpComponent")
 	  public JettyHttpComponent jettyHttpComponent() {
-		  JettyHttpComponent jetty = new JettyHttpComponent();
+		  JettyHttpComponent jetty = new JettyHttpComponent9();
 		  jetty.setSslContextParameters(sslContextParameters());
 		  return jetty;
 	  }
@@ -101,29 +89,23 @@ public class ServicesSpringConfig extends CamelConfiguration {
 	    // "REST" routes
 //	    routes.add(route1());
 //	    routes.add(route2());
-//	    routes.add(route3());
-	    routes.add(route4());
+	    routes.add(route3());
 
 	    return routes;
 	  }
 	  
-	  @Bean
-	  public Route1 route1() {
-		  return new Route1();
-	  }
-	  
+//	  @Bean
+//	  public Route1 route1() {
+//		  return new Route1();
+//	  }
+//	  
 //	  @Bean
 //	  public Route2 route2() {
 //		  return new Route2();
 //	  }
-//	  
-//	  @Bean
-//	  public Route3 route3() {
-//		  return new Route3();
-//	  }
-//	  
+	  
 	  @Bean
-	  public Route4 route4() {
-		  return new Route4();
+	  public Route3 route3() {
+		  return new Route3();
 	  }
 }
