@@ -76,6 +76,11 @@ public class ServicesSpringConfig extends CamelConfiguration {
 	    return new JettyBasicAuthAuthorizationHandler();
 	  }
 	  
+	  @Bean(name = "jettyErrorHandler")
+	  public SuppressJettyInfoErrorHandler jettyErrorHandler() {
+	    return new SuppressJettyInfoErrorHandler();
+	  }
+	  
 	  public JettyHttpComponent jettyHttpComponent() {
 		  JettyHttpComponent jetty = new JettyHttpComponent9();
 		  jetty.setSslContextParameters(sslContextParameters());
@@ -87,22 +92,23 @@ public class ServicesSpringConfig extends CamelConfiguration {
 	    List<RouteBuilder> routes = new ArrayList<>();
 
 	    // "REST" routes
-//	    routes.add(route1());
-//	    routes.add(route2());
+	    routes.add(route1());
+	    routes.add(route2());
 	    routes.add(route3());
+	    routes.add(route2());
 
 	    return routes;
 	  }
 	  
-//	  @Bean
-//	  public Route1 route1() {
-//		  return new Route1();
-//	  }
-//	  
-//	  @Bean
-//	  public Route2 route2() {
-//		  return new Route2();
-//	  }
+	  @Bean
+	  public Route1 route1() {
+		  return new Route1();
+	  }
+	  
+	  @Bean
+	  public Route2 route2() {
+		  return new Route2();
+	  }
 	  
 	  @Bean
 	  public Route3 route3() {

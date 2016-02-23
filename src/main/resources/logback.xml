@@ -29,7 +29,7 @@
 
     <logger name="at.rovo" level="debug"/>
     <logger name="org.springframework" level="warn"/>
-    <logger name="org.apache.camel" level="debug"/>
+    <logger name="org.apache.camel" level="trace"/>
 
     <root>
         <level value="info"/>
